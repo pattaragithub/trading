@@ -1,0 +1,38 @@
+# First, we need to import the necessary libraries for our algorithm:
+import numpy as np
+import pandas as pd
+
+# Next, we define the parameters for our grid trading algorithm:
+# Define the price range for our grid
+min_price = 20000
+max_price = 200000
+
+# Define the grid's width as a percentage of the price range
+grid_width = 0.32
+
+# Define the investment size
+investment_size = 10000
+
+# Now, we can calculate the number of grid levels by dividing the price range by the grid width:
+# Calculate the number of grid levels
+num_levels = int((max_price - min_price) / (grid_width * (max_price - min_price)))
+
+# Next, we create an empty DataFrame to store our grid levels and prices:
+# Create an empty DataFrame to store our grid levels and prices
+grid = pd.DataFrame(columns=["level", "price"])
+
+# Now, we can loop through the number of grid levels and calculate the price for each level:
+# Loop through the number of grid levels
+for i in range(num_levels):
+    # Calculate the price for the current level
+    price = min_price + (i * grid_width * (max_price - min_price))
+    
+    # Add the level and price to the DataFrame
+    grid = grid.append({"level": i, "price": price}, ignore_index=True)
+
+# Finally, we can place our limit orders using the calculated prices:
+# Loop through the DataFrame and place limit orders
+for index, row in grid.iterrows():
+    # Place a limit order at the calculated price
+    # The order will remain active until it is filled or cancelled
+    order = limit_order(price=row["price"], size=investment_size)
